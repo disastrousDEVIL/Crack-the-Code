@@ -23,7 +23,7 @@ if allowed_origins:
         allow_methods=["*"],
         allow_headers=["*"],
     )
-    
+print("ALLOWED_ORIGINS loaded:", allowed_origins)
 def generate_secret():
     digits=list("0123456789")
     random.shuffle(digits)
