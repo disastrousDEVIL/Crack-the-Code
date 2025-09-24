@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 const API_BASE = import.meta.env.DEV
   ? (import.meta.env.VITE_API_BASE || '/api')
@@ -12,24 +12,22 @@ const [gameStarted,setGameStarted]=useState(false)
 const [error,setError]=useState("")
 const [startAnim, setStartAnim] = useState(false)
 const [attemptLimit, setAttemptLimit] = useState(10) // 10,15,20 or 0 for unlimited
+const [lastPingOk, setLastPingOk] = useState(false)
 
 useEffect(() => {
   const ping = async () => {
     try {
       await fetch(`${API_BASE}/`, { method: "GET", cache: "no-store" });
+      setLastPingOk(true);
       console.debug("Keep-alive ping sent");
     } catch (e) {
+      setLastPingOk(false);
       console.debug("Keep-alive ping failed:", e);
     }
   };
 
-  // Ping immediately once
   ping();
-
-  // Repeat every 2 minutes (120000 ms)
-  const id = setInterval(ping, 60000);
-
-  // Cleanup when component unmounts
+  const id = setInterval(ping, 120000);
   return () => clearInterval(id);
 }, []);
 
@@ -82,9 +80,16 @@ const makeGuess=async ()=>{
 
 return (
 <div className="min-h-screen starfield text-green-100 flex flex-col" data-theme="dark">
-  <div className="navbar bg-[#020202] text-[#16DB65] border-b border-[#0A9548] shadow-[0_10px_30px_-10px_rgba(10,149,72,0.35)]">
+  <div className="navbar bg-[#020202] text-[#16DB65] border-b border-[#0A9548] shadow-[0_10px_30px_-10px_rgba(10,149,72,0.35)] relative">
     <div className="w-full flex justify-center">
       <h1 className="font-orbitron text-2xl md:text-4xl font-extrabold tracking-widest text-center">Which Number Am I?</h1>
+    </div>
+    <div className="absolute right-6 top-1/2 -translate-y-1/2 flex items-center gap-2">
+      <span
+        className={`h-3 w-3 rounded-full ${lastPingOk ? 'bg-green-500' : 'bg-red-500'}`}
+        title={lastPingOk ? "Connected" : "Disconnected"}
+      ></span>
+      <span className="text-sm">{lastPingOk ? "Connected" : "Offline"}</span>
     </div>
   </div>
   
