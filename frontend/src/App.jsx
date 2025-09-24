@@ -17,7 +17,7 @@ const [lastPingOk, setLastPingOk] = useState(false)
 useEffect(() => {
   const ping = async () => {
     try {
-      await fetch(`${API_BASE}/`, { method: "GET", cache: "no-store" });
+      await fetch(`${API_BASE}`, { method: "GET", cache: "no-store" });
       setLastPingOk(true);
       console.debug("Keep-alive ping sent");
     } catch (e) {
