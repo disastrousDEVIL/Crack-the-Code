@@ -1,0 +1,176 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Prevent horizontal scroll and overscroll bounce */
+html, body { height: 100%; overflow-x: hidden; overscroll-behavior: none; }
+
+/* Global sci‑fi display font for headings */
+.font-orbitron {
+  font-family: 'Orbitron', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+/* Secondary display for section headings */
+.font-space {
+  font-family: 'Space Grotesk', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial;
+}
+
+/* Monospace tech readout for counters and small labels */
+.font-mono-tech {
+  font-family: 'Share Tech Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+/* Win pop animation */
+@keyframes win-pop {
+  0% { transform: scale(0.95); opacity: 0.0; }
+  60% { transform: scale(1.03); opacity: 1; }
+  100% { transform: scale(1.0); opacity: 1; }
+}
+
+.animate-win-pop {
+  animation: win-pop 450ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Confetti burst overlay */
+.confetti-overlay {
+  position: relative;
+}
+.confetti-overlay .confetti-piece {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: var(--size);
+  height: var(--size);
+  background: var(--c);
+  border-radius: 2px;
+  transform: translate(-50%, 0) rotate(0deg);
+  animation: confetti-burst 900ms ease-out forwards;
+  animation-delay: var(--delay);
+  box-shadow: 0 0 6px 0 rgba(22, 219, 101, 0.5);
+}
+
+/* Letter bounce for Start Game characters */
+@keyframes letter-bounce {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.28); }
+  60% { transform: scale(0.96); }
+  100% { transform: scale(1.25); }
+}
+
+/* Starfield moving background */
+.starfield {
+  background-color: #020202;
+  background-image:
+    radial-gradient(2px 2px at 20px 30px, #16DB65 90%, transparent 91%),
+    radial-gradient(1.5px 1.5px at 120px 80px, #0A9548 90%, transparent 91%),
+    radial-gradient(2px 2px at 60px 150px, #16DB65 90%, transparent 91%),
+    radial-gradient(1px 1px at 180px 120px, #0A9548 90%, transparent 91%);
+  background-size: 200px 200px, 260px 260px, 320px 320px, 380px 380px;
+  animation: star-move 60s linear infinite;
+}
+
+@keyframes star-move {
+  from { background-position: 0 0, 0 0, 0 0, 0 0; }
+  to { background-position: -2000px -1000px, -1500px -800px, -1000px -500px, -500px -250px; }
+}
+
+/* Transparent outlined text in palette green */
+.text-outline-green {
+  color: transparent;
+  -webkit-text-stroke: 2px #16DB65;
+  text-shadow: 0 0 8px rgba(22, 219, 101, 0.25);
+}
+
+/* Hologram wireframe button */
+.btn-wireframe {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem 4rem; /* hero size */
+  border-radius: 1rem; /* bolder shape */
+  border: 2px dashed #0A9548;
+  color: #16DB65;
+  background: transparent;
+  overflow: hidden;
+  min-width: clamp(18rem, 42vw, 34rem);
+  font-family: 'Audiowide', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial;
+  font-weight: 800;
+  font-size: clamp(1.5rem, 3.3vw, 3rem);
+  letter-spacing: 0.25em;
+  box-shadow: 0 0 0 0 rgba(22, 219, 101, 0.0);
+}
+.btn-wireframe::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(22,219,101,0) 0%, rgba(22,219,101,0.35) 50%, rgba(22,219,101,0) 100%);
+  transform: translateX(-100%);
+  animation: wire-sweep 1.6s linear infinite;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+/* subtle aura glow */
+.btn-wireframe:hover { box-shadow: 0 0 40px 6px rgba(22, 219, 101, 0.18); }
+@keyframes wire-sweep {
+  to { transform: translateX(100%); }
+}
+@keyframes confetti-burst {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 0) scale(0.8) rotate(0deg);
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--dx)), var(--dy)) rotate(var(--rot));
+  }
+}
+
+/* Attempts panel - neon glass chip */
+.panel-attempts {
+  position: relative;
+  padding: 1.25rem 2.25rem;
+  border-radius: 9999px;
+  border: 1px solid #0A9548;
+  background: radial-gradient(120% 120% at 50% 0%, #0A9548 0%, #04471C 35%, #022610 100%);
+  color: #A7F3D0;
+  box-shadow: 0 12px 40px -12px rgba(22, 219, 101, 0.35), inset 0 0 0 1px rgba(22, 219, 101, 0.15);
+  overflow: hidden;
+}
+.panel-attempts::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(167,243,208,0.08) 50%, rgba(255,255,255,0) 100%);
+  transform: translateX(-100%);
+  animation: panel-sweep 2.8s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes panel-sweep { to { transform: translateX(100%); } }
+
+/* Neon submit button */
+.attempts-text {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.06em;
+  text-shadow: 0 0 12px rgba(22, 219, 101, 0.28), 0 0 2px rgba(22, 219, 101, 0.6);
+}
+
+.btn-neo {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.15rem 2.85rem;
+  border-radius: 1rem;
+  border: 1px solid #16DB65;
+  background: linear-gradient(180deg, #16DB65 0%, #0FB767 100%);
+  color: #001b0d;
+  font-weight: 700;
+  box-shadow: 0 10px 28px rgba(22,219,101,0.25);
+  transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+}
+.btn-neo:hover { transform: translateY(-2px); filter: brightness(1.05); box-shadow: 0 14px 36px rgba(22,219,101,0.35); }
+.btn-neo:active { transform: translateY(0); filter: brightness(0.98); }
