@@ -27,7 +27,7 @@ useEffect(() => {
   ping();
 
   // Repeat every 2 minutes (120000 ms)
-  const id = setInterval(ping, 120000);
+  const id = setInterval(ping, 60000);
 
   // Cleanup when component unmounts
   return () => clearInterval(id);
