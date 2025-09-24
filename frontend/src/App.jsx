@@ -58,6 +58,8 @@ const makeGuess=async ()=>{
      return;
    }
   const res=await axios.post(`${API_BASE}/guess`,null,{params:{guess}})
+  // Clear the input after a submitted guess
+  setGuess("")
    
    // Check if there's an error in the response
    if (res.data.error) {
