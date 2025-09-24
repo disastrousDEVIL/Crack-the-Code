@@ -9,12 +9,10 @@ from dotenv import load_dotenv
 
 
 load_dotenv()
-dist_path=os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "frontend", "dist"))
 
 app=FastAPI()
 secret=0
 attempt_limit=10
-app.mount("/assets", StaticFiles(directory=os.path.join(dist_path,"assets")), name="assets")
 past_guesses={} # list of past guesses
 allowed_origins = os.getenv("ALLOWED_ORIGINS", "").split(",") if os.getenv("ALLOWED_ORIGINS") else []
 if allowed_origins:
@@ -25,16 +23,6 @@ if allowed_origins:
         allow_methods=["*"],
         allow_headers=["*"],
     )
-
-@app.get("/")
-async def serve_react():
-    return FileResponse(os.path.join(dist_path, "index.html"))
-
-@app.get("/vite.svg")
-async def serve_vite_svg():
-    return FileResponse(os.path.join(dist_path, "vite.svg"))
-
-
 def generate_secret():
     digits=list("0123456789")
     random.shuffle(digits)
@@ -54,8 +42,8 @@ async def start_game(limit: int | None = None, unlimited: bool = False):
         attempt_limit = 0 if limit == 0 else int(limit)
     else:
         attempt_limit = 0 if unlimited else 10
-    print(secret)
-    return {"secret": secret, "attempt_limit": attempt_limit}
+    # print(secret)
+    # return {"secret": secret, "attempt_limit": attempt_limit}
 
 @app.post("/guess")
 async def guess_number(guess:str):
