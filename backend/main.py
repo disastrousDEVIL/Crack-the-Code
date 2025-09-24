@@ -23,12 +23,16 @@ if allowed_origins:
         allow_methods=["*"],
         allow_headers=["*"],
     )
+    
 def generate_secret():
     digits=list("0123456789")
     random.shuffle(digits)
     if digits[0]=="0":
         digits[0],digits[1]=digits[1],digits[0]
     return "".join(digits[:4])
+@app.get("/")
+async def start():
+    return{"message":"Its started"}
 
 @app.post("/start")
 async def start_game(limit: int | None = None, unlimited: bool = False):
