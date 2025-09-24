@@ -13,6 +13,25 @@ const [error,setError]=useState("")
 const [startAnim, setStartAnim] = useState(false)
 const [attemptLimit, setAttemptLimit] = useState(10) // 10,15,20 or 0 for unlimited
 
+useEffect(() => {
+  const ping = async () => {
+    try {
+      await fetch(`${API_BASE}/`, { method: "GET", cache: "no-store" });
+      console.debug("Keep-alive ping sent");
+    } catch (e) {
+      console.debug("Keep-alive ping failed:", e);
+    }
+  };
+
+  // Ping immediately once
+  ping();
+
+  // Repeat every 2 minutes (120000 ms)
+  const id = setInterval(ping, 120000);
+
+  // Cleanup when component unmounts
+  return () => clearInterval(id);
+}, []);
 
 const startGame=async ()=>{
  try {
